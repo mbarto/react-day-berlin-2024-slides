@@ -5,7 +5,7 @@ theme: default
 # like them? see https://unsplash.com/collections/94734566/slidev
 # background: https://cover.sli.dev
 # some information about your slides (markdown enabled)
-title: Introduction
+title: Meet React Flight and become a RSC expert
 info: |
   ## Slidev Starter Template
   Presentation slides for developers.
@@ -119,8 +119,6 @@ class: text-center pt-40 color-white
 # React Server(less) Components
 
 ---
-class:
----
 
 <v-click hide>
 <img 
@@ -231,3 +229,90 @@ class: text-center pt-40 color-white
 
 # React Server(less) Components
 
+---
+class: text-center pt-40 color-white
+---
+
+# 2nd Challenge
+
+<hr class="w-10 ml-100 mb-5"/>
+
+## Can we navigate different pages with RSC?
+
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+# Replaceable Static Content
+
+---
+
+<v-click hide>
+<img 
+    class="absolute w-100 opacity-100 right-10 top-10"
+    src="./second_example_ui.gif"
+    alt=""
+  />
+</v-click>
+<div class="absolute right-10 w-90 color-white" v-after>
+  <h3 class="mb-5">Learnings</h3>
+  <span>We can fetch and render content for a full page, or part of it by:</span>
+  <ul>    
+    <li v-click="2">storing content promise(s) into React state</li>
+    <li v-click="3">updating the state as we fetch new content</li>
+    <li v-click="4">passing content promise(s) as a  property of the component(s)</li>
+  </ul>
+  <span v-click="5">React Flight is a rich protocol, it supports:</span>
+  <ul>    
+    <li v-click="6">React Trees ($)</li>
+    <li v-click="7">(Server) components</li>
+    <li v-click="8">Many chunks, identified by keys (1, 2, 3, 0)</li>
+    <li v-click="9">References to other chunks ($2, $3)</li>
+  </ul>
+  
+</div>
+
+<div class="w-120">
+````md magic-move {lines: false}
+```js {*|4|6-10|1}
+function Root({ content }) => use(content);
+
+function Layout() {
+  const [pagePromise, setPagePromise] = useState(null);
+
+  function setPage(page) {
+    setPagePromise(
+      createFromFetch(fetch(`rsc/page${page}.rsc`))
+    );
+  }
+
+  return (
+    <>
+      <menu>
+        <li>
+          <a href="#" onClick={() => setPage(1)}>Page 1</a>
+        </li>
+      </menu>
+      <Suspense fallback={<p>Loading...</p>}>
+        <Root content={pagePromise} />
+      </Suspense>
+    </>
+  );
+}
+createRoot(document.getElementById("root")).render(<Layout />);
+
+```
+```json {*|4|1|*}
+1:{"name":"App","env":"Server","owner":null}
+2:["$","h1",null,{"children":"Title"},"$1"]
+3:["$","p",null,{"children":"Page1"},"$1"]
+0:["$","div",null,{"children":["$2","$3"]},"$1"]
+```
+```json {2,3,5}
+1:{"name":"App","env":"Server","owner":null}
+2:["$","h1",null,{"children":"Title"},"$1"]
+3:["$","p",null,{"children":"Page1"},"$1"]
+0:["$","div",null,{"children":[
+  "$2","$3"
+]},"$1"]
+```
+````
+</div>
