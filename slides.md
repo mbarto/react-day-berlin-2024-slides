@@ -96,7 +96,7 @@ class: pt-20
 
 <hr class="w-10 ml-100 mb-5"/>
 
-<span class="text-size-xl color-white">Repository used during the talk: <a href="https://github.com/mbarto/rsc-experiments" target="_blank">https://github.com/mbarto/rsc-experiments</a></span>
+<span class="text-size-xl color-white">Repository used during the talk: https://github.com/mbarto/rsc-experiments</span>
 
 <img
     class="absolute bottom-20 left-100 w-40 opacity-100"
@@ -377,25 +377,6 @@ class: text-center pt-40 color-white
 # React Server<small>(and)</small>Client
 
 ---
-class: text-center pt-40 color-white
----
-<img v-click
-    class="absolute w-100 opacity-100 left-70 top-40"
-    src="./completed.png"
-    alt=""
-  />
-
-# 3rd Challenge
-
-<hr class="w-10 ml-100 mb-5"/>
-
-## Can we split rendering between a server and a client with RSC?
-
-<hr class="w-10 ml-100 mt-5 mb-5"/>
-
-# React Server<small>(and)</small>Client
-
----
 
 
 <div class="absolute right-10 w-90 color-white">
@@ -603,3 +584,145 @@ class: text-center
     <li v-click>renderToPipeableStream --> RSC</li>
     <li v-click>Still nothing really impressive...</li>
 </ul>
+
+---
+class: text-center pt-40 color-white
+---
+<img v-click
+    class="absolute w-100 opacity-100 left-70 top-40"
+    src="./completed.png"
+    alt=""
+  />
+
+# 3rd Challenge
+
+<hr class="w-10 ml-100 mb-5"/>
+
+## Can we split rendering between a server and a client with RSC?
+
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+# React Server<small>(and)</small>Client
+
+---
+class: text-center pt-40 color-white
+---
+
+# 4th Challenge
+
+<hr class="w-10 ml-100 mb-5"/>
+
+## Can we stream (infinite) content with RSC?
+
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+# React Streaming Components
+
+---
+
+<v-click hide>
+<img 
+    class="absolute w-100 opacity-100 right-10 top-10"
+    src="./fourth_example_ui.gif"
+    alt=""
+  />
+</v-click>
+
+<div class="absolute right-10 w-90 color-white" v-after v-click.hide="5">
+  <h3 class="mb-5">Learnings</h3>
+  <span>We can create async (server) components by:</span>
+  <ul>    
+    <li v-click="2">using async / await as needed</li>
+    <li v-click="3">using Suspense to wrap an async component and define a fallback to show until the component is resolved</li>
+    <li v-click="4">We can even use the same component recursively to create a (potentially) infinite content stream</li>
+  </ul>
+</div>
+
+<div class="absolute right-10 w-90 color-white" v-click="5">
+  <h3 class="mb-5">Learnings</h3>
+  <span>React Flight supports streaming content by:</span>
+  <ul>    
+    <li v-click="6">allowing serialization of React internal components (e.g. Suspense) through symbols ($S)</li>
+    <li v-click="7">referencing future content as lazy content ($L)</li>
+    <li v-click="8">renderToPipeableStream streams new content (in chunks), when it is available</li>
+  </ul>
+</div>
+
+<div class="w-120">
+```js {*|1-2|5|6,14}
+async function Async({ counter }) {
+  await new Promise((r) => setTimeout(r, 1000));
+  return (<>
+    <p>Counter: {counter}</p>
+    <Suspense fallback="Loading...">
+      <Async counter={counter + 1}/>
+    </Suspense>
+  </>);
+}
+
+function App() {
+  return (<div>
+    <Suspense fallback="Loading...">
+      <Async counter={0}/>
+    </Suspense>
+  </div>);
+}
+
+```
+</div>
+
+
+<div class="absolute w-220 bottom-10 left-10" v-click="5">
+```json {*|*|1|3|5}
+2:"$Sreact.suspense"
+0:["$","div",null,{"children":["$","$2",null,{"fallback":"Loading...","children":
+  "$L3"
+},"$1"]},"$1"]
+3:[["$","p",null,{"children":"Counter: 0"},null],["$","$2",null,{"fallback":"Loading...","children": "$L5"},null]]
+```
+</div>
+
+---
+layout: two-cols-header
+class: text-center
+---
+<style>
+  .col-header {
+    font-size: 32px;
+    color: white;
+  }
+</style>
+
+<div class="text-center">What can we do with our learnings?</div>
+
+::left::
+
+# Streaming Content
+
+## Slow and Fast Content
+
+::right::
+
+<ul class="color-white text-left">    
+    <li>HTML does not (easily) support streaming content</li>
+    <li v-click>This is a real game changer!</li>
+</ul>
+
+---
+class: text-center pt-40 color-white
+---
+<img v-click
+    class="absolute w-100 opacity-100 left-70 top-40"
+    src="./completed.png"
+    alt=""
+  />
+
+# 4th Challenge
+
+<hr class="w-10 ml-100 mb-5"/>
+
+## Can we stream (infinite) content with RSC?
+
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+# React Streaming Components
