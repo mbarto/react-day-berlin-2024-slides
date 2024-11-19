@@ -254,7 +254,7 @@ class: text-center pt-40 color-white
 </v-click>
 <div class="absolute right-10 w-90 color-white" v-after>
   <h3 class="mb-5">Learnings</h3>
-  <span>We can fetch and render content for a full page, or part of it by:</span>
+  <span>We can replace content of the full page, or part of it by:</span>
   <ul>    
     <li v-click="2">storing content promise(s) into React state</li>
     <li v-click="3">updating the state as we fetch new content</li>
@@ -316,3 +316,290 @@ createRoot(document.getElementById("root")).render(<Layout />);
 ```
 ````
 </div>
+
+---
+layout: two-cols-header
+class: text-center
+---
+<style>
+  .col-header {
+    font-size: 32px;
+    color: white;
+  }
+</style>
+
+<div class="text-center">What can we do with our learnings?</div>
+
+::left::
+
+# Page Navigation
+
+## Replace Updated Content
+
+::right::
+
+<ul class="color-white text-left">    
+    <li>Why not using HTML?</li>
+    <li v-click>Not a strong reason to use RSC in this case</li>
+</ul>
+
+---
+class: text-center pt-40 color-white
+---
+<img v-click
+    class="absolute w-100 opacity-100 left-70 top-40"
+    src="./completed.png"
+    alt=""
+  />
+
+# 2nd Challenge
+
+<hr class="w-10 ml-100 mb-5"/>
+
+## Can we navigate different pages with RSC?
+
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+# Replaceable Static Content
+
+---
+class: text-center pt-40 color-white
+---
+
+# 3rd Challenge
+
+<hr class="w-10 ml-100 mb-5"/>
+
+## Can we split rendering between a server and a client with RSC?
+
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+# React Server<small>(and)</small>Client
+
+---
+class: text-center pt-40 color-white
+---
+<img v-click
+    class="absolute w-100 opacity-100 left-70 top-40"
+    src="./completed.png"
+    alt=""
+  />
+
+# 3rd Challenge
+
+<hr class="w-10 ml-100 mb-5"/>
+
+## Can we split rendering between a server and a client with RSC?
+
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+# React Server<small>(and)</small>Client
+
+---
+
+
+<div class="absolute right-10 w-90 color-white">
+  <h3 class="mb-5">Learnings</h3>
+  <span>We need a condition on the starting script to enable react in server mode<br/></span>
+  <span v-click="1">We can "pre-cook" content on a server by:</span>
+  <ul>    
+    <li v-click="2">creating a /rsc endpoint</li>
+    <li v-click="3">invoking renderToPipeableStream on a (server) component</li>
+    <li v-click="4">"pipeing" the result on the backend response object</li>
+  </ul>
+  <span v-click="5">The server components have some limitations:</span>
+  <ul>    
+    <li v-click="6">can't use any of the usual hooks, to manage state</li>
+    <li v-click="7">can't use context either</li>
+    <li v-click="8">this is because they are, by design, stateless</li>
+  </ul>
+  
+</div>
+
+<div class="w-120 mt-10">
+```sh
+node --conditions=react-server server.js
+```
+</div>
+
+<div class="w-120" v-click="1">
+```js {*|*|12-15|13|14|*}
+import Fastify from "fastify";
+import { renderToPipeableStream } 
+  from "react-server-dom-esm/server";
+
+function App() => <div>Hello world!</div>;
+
+export async function main() {
+  const server = Fastify();
+
+  server.get("/", (_, reply) => reply.html();
+
+  server.get("/rsc", (_, reply) => {
+    const { pipe } = renderToPipeableStream(<App/>);
+    pipe(reply.raw);
+  });
+
+  return server;
+}
+
+const server = await main();
+await server.listen({ port: 3000 });
+```
+</div>
+
+---
+class: text-center mt-10
+---
+
+```mermaid {markdownAutoWrap: false}
+flowchart TD
+  A@{shape: circle, label: "React Tree"}
+  B@{img: "./rsc_payload_1.png", w: 350, constraint: "on"}
+  A -- Serialize (renderToPipeableStream) --> B
+  B -- Deserialize (createFromFetch) --> HTML[&lt;div&gt;Hello World!&lt;/div&gt;]
+```
+---
+
+<v-click hide>
+<img 
+    class="absolute w-100 opacity-100 right-10 top-10"
+    src="./third_example_ui.gif"
+    alt=""
+  />
+</v-click>
+
+<div class="absolute right-10 w-90 color-white" v-after>
+  <h3 class="mb-5">Learnings</h3>
+  <ul>    
+    <li v-click="2">Client (only) components can be created using the directive use client.</li>
+    <li v-click="3">We can use client components in server components, not the other way around</li>
+    <li v-click="4">Client components are translated into an import chunk (I)...</li>
+    <li v-click="5">...and one ore more lazy references ($L) by React Flight</li>
+  </ul>
+</div>
+
+<div class="w-120">
+```js {*|1}
+"use client";
+
+export const MyClientComponent = ({ content }) =>
+  <button onClick={() => alert("Clicked!")}>{content}</button>;
+```
+</div>
+
+<div class="w-120">
+```js {*|9}
+import Fastify from "fastify";
+import { renderToPipeableStream } 
+  from "react-server-dom-esm/server";
+import { MyClientComponent } 
+  from "./client/my-client-component.js"
+
+function App() => (<div>
+  <h1>Hello world!</h1>
+  <MyClientComponent content="Click me!"/>
+</div>);
+
+export async function main() {
+  ...
+  server.get("/rsc", (_, reply) => {
+    const basePath = new URL("./client", import.meta.url).href;
+    const { pipe } = renderToPipeableStream(<App/>, basePath);
+    pipe(reply.raw);
+  });
+  return server;
+}
+```
+</div>
+
+<div class="absolute w-100 bottom-10 right-10">
+```json {*|1|4}
+a:I["/my-client-component.js","MyClientComponent"]
+0:["$","div",null,{"children":[
+  ["$", "div", null, {"children": "Hello World!"}], 
+  ["$", "$La", "a", {"content": "Click here!"}]]}
+]
+```
+</div>
+---
+
+<div class="absolute right-10 w-90 color-white">
+  <h3 class="mb-5">Learnings</h3>
+  <ul>    
+    <li v-click="1">renderToPipeableStream needs an additional parameter to resolve client components path</li>
+    <li v-click="2">on the client side, we need the same in createFromFetch</li>
+    <li v-click="3">a custom loader, or a bundler,  is needed on the backend to handle client components</li>
+  </ul>
+</div>
+
+<div class="w-120">
+```js {*|15-16}
+import Fastify from "fastify";
+import { renderToPipeableStream } 
+  from "react-server-dom-esm/server";
+import { MyClientComponent } 
+  from "./client/my-client-component.js"
+
+function App() => (<div>
+  <h1>Hello world!</h1>
+  <MyClientComponent content="Click me!"/>
+</div>);
+
+export async function main() {
+  ...
+  server.get("/rsc", (_, reply) => {
+    const basePath = new URL("./client", import.meta.url).href;
+    const { pipe } = renderToPipeableStream(<App/>, basePath);
+    pipe(reply.raw);
+  });
+  return server;
+}
+```
+
+```js {*|3}
+const initialContent = createFromFetch(
+  fetch("/rsc", {
+    moduleBaseURL: window.location.origin
+  })
+)
+```
+</div>
+
+<div class="absolute w-90 bottom-10 right-10">
+```sh {none|1}
+node --import ./register-rsc-loader.js ...
+```
+```js {none|*}
+import { load as reactLoad } 
+  from "react-server-dom-ems/node-loader";
+...
+```
+</div>
+
+---
+layout: two-cols-header
+class: text-center
+---
+<style>
+  .col-header {
+    font-size: 32px;
+    color: white;
+  }
+</style>
+
+<div class="text-center">What can we do with our learnings?</div>
+
+::left::
+
+# SSR
+
+## Server Side Rendering
+
+::right::
+
+<ul class="color-white text-left">    
+    <li>renderToString --> HTML</li>
+    <li v-click>renderToPipeableStream --> RSC</li>
+    <li v-click>Still nothing really impressive...</li>
+</ul>
