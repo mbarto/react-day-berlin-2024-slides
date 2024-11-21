@@ -726,3 +726,371 @@ class: text-center pt-40 color-white
 <hr class="w-10 ml-100 mt-5 mb-5"/>
 
 # React Streaming Components
+
+---
+class: text-center pt-40 color-white
+---
+
+# 5th Challenge
+
+<hr class="w-10 ml-100 mb-5"/>
+
+## Can we generate both HTML and Flight with RSC?
+
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+# React Strange Constraints
+
+---
+
+<div class="absolute right-10 w-90 color-white">
+  <h3 class="mb-5">Learnings</h3>
+  <span>We can have a dedicated backend for rsc generation:</span>
+  <ul>    
+    <li v-click="1">started with the react-server conditions flag</li>
+    <li v-click="2">with the usual rsc endpoint using renderToPipeableStream</li>
+    <li v-click="3">on a different port / server than the main backend</li>
+    <li v-click="4">The RSC endpoint can be also hosted on the main backend, using workers (an example is in the talk repository)</li>
+  </ul>
+</div>
+
+
+<div class="w-120">
+```sh
+node --conditions=react-server rsc.js
+
+```
+</div>
+
+<div class="w-120">
+```js {none|none|4-8|14}
+export async function main() {
+  const server = Fastify();
+
+  server.get("/rsc", (req, reply) => {
+    const page = Number(req.query.page);
+    const { pipe } = renderToPipeableStream(h(Page, { page }));
+    pipe(reply.raw);
+  });
+
+  return server;
+}
+
+const server = await main();
+await server.listen({ port: 4000 });
+
+```
+</div>
+
+---
+
+<div class="absolute right-10 w-90 color-white">
+  <h3 class="mb-5">Learnings</h3>
+  <span>The main backend will:</span>
+  <ul>    
+    <li v-click="1">offer a pass-through /rsc endpoint to delegate to the rsc backend</li>
+    <li v-click="2">pregenerate static HTML using renderToString</li>
+    <li v-click="3">include also the initial RSC payload for hydration</li>
+  </ul>
+</div>
+
+
+<div class="w-120 -mt-5">
+```js {*|1-11|15|1-6,9,20-22}
+async function fetchRsc(req, page) {
+  const rscResponse = await fetch(
+    `http://localhost:4000/rsc?page=${page}`
+  );
+  return await rscResponse.text();
+}
+
+server.get("/rsc", async (req, reply) => {
+  const rscContent = await fetchRsc(req, req.query.page);
+  reply.send(rscContent);
+});
+
+server.get("/", async (req, reply) => {
+  const rscContent = await fetchRsc(req, 0);
+  let page = await renderToString(<App page={0}/>);
+  const html = `<!doctype html>
+<html lang="en">
+<body>
+  <div id="root">${page}</div>
+    <script id="initial-rsc" type="text/plain">
+      ${rscContent}
+    </script>
+  </body></html>`;
+  return reply.type("text/html").send(html);
+});
+
+await server.listen({ port: 3000 });
+```
+</div>
+---
+
+<div class="absolute right-10 w-90 color-white">
+  <h3 class="mb-5">Learnings</h3>
+  <span>On the client we can hydrate content by:</span>
+  <ul>    
+    <li v-click="1">getting the RSC payload already included in the page</li>
+    <li v-click="2">transforming the payload into a stream through a ReadableStream and a TextEncoder</li>
+    <li v-click="3">using createFromReadableStream to transform it into the usual React Tree Promise</li>
+  </ul>
+</div>
+
+
+<div class="w-120 -mt-5">
+```js {*|4-5|8-16|18}
+function Layout() {
+  const [pagePromise, setPagePromise] = useState(null);
+
+  const initialRsc = document.getElementById("initial-rsc")
+    .innerText;
+
+  useEffect(() => {
+    const encoder = new TextEncoder();
+
+    const stream = new ReadableStream({
+      start(controller) {
+        const encoded = encoder.encode(initialRsc);
+        controller.enqueue(encoded);
+        controller.close();
+      },
+    });
+
+    const initialContent = createFromReadableStream(stream);
+    setPagePromise(initialContent);
+  }, []);
+
+  ...
+}
+
+createRoot(document.getElementById("root")).render(<Layout />);
+```
+</div>
+
+---
+layout: two-cols-header
+class: text-center
+---
+<style>
+  .col-header {
+    font-size: 32px;
+    color: white;
+  }
+</style>
+
+<div class="text-center">What can we do with our learnings?</div>
+
+::left::
+
+# Optimize initial page loading
+
+
+## Prerender HTML and initial RSC
+
+::right::
+
+<ul class="color-white text-left">    
+    <li>This makes RSC able to work as the classic SSR was</li>
+    <li v-click>Why can't we use renderToPipableStream and renderToString in the same "thread"? This remains a mystery to me</li>
+</ul>
+
+---
+class: text-center pt-40 color-white
+---
+<img v-click
+    class="absolute w-100 opacity-100 left-70 top-40"
+    src="./completed.png"
+    alt=""
+  />
+
+# 5th Challenge
+
+<hr class="w-10 ml-100 mb-5"/>
+
+## Can we generate both HTML and Flight with RSC?
+
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+# React Strange Constraints
+
+---
+class: text-center pt-40 color-white
+---
+
+# 6th Challenge
+
+<hr class="w-10 ml-100 mb-5"/>
+
+## Can we use a language that is not JS in the backend?
+
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+# Rust Server Components
+
+---
+
+<v-click hide>
+<img 
+    class="absolute w-100 opacity-100 right-10 top-20"
+    src="./sixth_example_ui.png"
+    alt=""
+  />
+</v-click>
+
+<div class="absolute right-10 w-90 color-white" v-after>
+  <h3 class="mb-5">Learnings</h3>
+  <span>We can create server components in Rust by:</span>
+  <ul>    
+    <li v-click="2">using the rscx library</li>
+    <li v-click="3">tagging a function as a component using the #component attribute</li>
+    <li v-click="4">defining a component output in a jsx-like syntax, via the html! macro</li>
+    <li v-click="5">using the flight function (just a proof of concept) to serialize the output as a React Flight payload, instead of HTML</li>
+  </ul>
+</div>
+
+
+<div class="w-120 -mt-5">
+```rust {*|3|14-25|19-24|6-12}
+mod app {
+    use flight::flight;
+    use rscx::{component, html, props, CollectFragment};
+
+    #[rocket::get("/rsc")]
+    pub async fn rsc() -> String {
+        flight(html! {
+            <Section title="Hello">
+                <Items />
+            </Section>
+        })
+    }
+
+    #[component]
+    fn Section(
+        #[builder(default = "Default title".into(), setter(into))] title: String,
+        #[builder(default)] children: String,
+    ) -> String {
+        html! {
+            <div>
+                <h1>{ title }</h1>
+                { children }
+            </div>
+        }
+    }
+}
+```
+</div>
+
+---
+layout: two-cols-header
+class: text-center
+---
+<style>
+  .col-header {
+    font-size: 32px;
+    color: white;
+  }
+</style>
+
+<div class="text-center">What can we do with our learnings?</div>
+
+::left::
+
+# Language Agnostic Protocol
+
+## Extended Usage
+
+::right::
+
+<ul class="color-white text-left">    
+    <li>Not an easy target</li>
+    <li v-click>We at least need a documented and stable specification for React Flight</li>
+    <li v-click>An option to consider!</li>
+</ul>
+
+---
+class: text-center pt-40 color-white
+---
+<img v-click
+    class="absolute w-100 opacity-100 left-70 top-40"
+    src="./completed.png"
+    alt=""
+  />
+
+# 6th Challenge
+
+<hr class="w-10 ml-100 mb-5"/>
+
+## Can we use a language that is not JS in the backend?
+
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+# Rust Server Components
+
+---
+layout: intro
+class: text-white
+---
+
+# Conclusions
+
+## Pros
+
+<v-clicks>
+ <li>Streaming</li>
+ <li>Balance server and client work</li>
+ <li>Extend the meaning of client and server</li>
+ <li>Basic primitives → many different implementations (NextJS, Waku, Remix, TanStack, …)</li>
+</v-clicks>
+
+## Cons
+
+<v-clicks>
+ <li>Needs documentation and stability of the protocol</li>
+</v-clicks>
+
+---
+layout: intro
+class: text-white
+---
+
+# More links to useful material
+
+ - Repository used during the talk: https://github.com/mbarto/rsc-experiments
+ - Where the learning journey started: https://github.com/epicweb-dev/react-server-components
+ - The Rust rscx library: https://github.com/Pitasi/rscx
+ - The RSC parser project: https://rsc-parser.vercel.app/
+ - RSC from scratch (Part 1): https://github.com/reactwg/server-components/discussions/5
+ - Making Sense of React Server Components: https://www.joshwcomeau.com/react/server-components/
+ - The Forensics of React Server Components: https://www.smashingmagazine.com/2024/05/forensics-react-server-components/
+ - Decoding React Server Components Payloads: https://edspencer.net/2024/7/1/decoding-react-server-component-payloads
+
+---
+layout: image
+class: text-white
+---
+
+<img v-click
+    class="absolute w-100 opacity-100 left-70 top-40"
+    src="./rsc_meaning.png"
+    alt=""
+  /> 
+
+# I am not alone!
+
+---
+layout: image
+image: ./back_cover.png
+class: text-white
+
+---
+
+<div class="ml-35 mt-15 bg-black bg-op-70 p-20 w-150">
+  <h1>Thank you!</h1>
+  <span>https://github.com/mbarto/rsc-experiments</span><br/>
+  <span>maurobartolomeoli@gmail.com</span><br/>
+  <span>@mauro_bart</span><br/>
+  <span>mbarto.bsky.social</span><br/>
+  <span>https://linkedin.com/in/mauro-bartolomeoli-a156182</span><br/>
+</div>
