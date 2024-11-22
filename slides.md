@@ -42,11 +42,11 @@ overviewSnapshots: true
     alt=""
   />
   <div class="mx-80 w-140 -my-50 color-white">
-    <v-click>Hi, my name is Mauro, and I work as a software developer for doubleloop srl.<br/></v-click>
-    <v-click>In my company, fridays are dedicated to exploration.<br/></v-click>
-    <v-click>One of those was dedicated to RSC.<br/></v-click>
-    <v-click>The exploration went through a set of challenges, with the goal of learning as much as possible.<br/></v-click>
-    <v-click>This talk is about this learning journey.<br/></v-click>
+    <v-click>Hi, my name is Mauro, and I work as a software developer for doubleloop<br/></v-click>
+    <v-click>In my company, fridays are dedicated to exploration<br/></v-click>
+    <v-click>One of those was dedicated to RSC<br/></v-click>
+    <v-click>The exploration went through a set of challenges, with the goal of learning as much as possible<br/></v-click>
+    <v-click>This talk is about this learning journey<br/></v-click>
   </div>
 </div>
 
@@ -135,7 +135,7 @@ class: text-center pt-40 color-white
     <li v-click="3">invoking createFromFetch to get a Promise of a React Tree to be rendered</li>
     <li v-click="4">resolving the async Promise via the use hook, that hides the asynchronicity</li>
     <li v-click="5">rendering the React Tree via createRoot(...).render</li>
-    <li v-click="7">Pre-cooked content is a serialized version of a React Tree, using a new protocol called React Flight.</li>
+    <li v-click="6">Pre-cooked content is a serialized version of a React Tree, using a new protocol called React Flight.</li>
   </ul>
 </div>
 
@@ -504,57 +504,38 @@ a:I["/my-client-component.js","MyClientComponent"]
 ```
 </div>
 ---
+class: color-white op-100
+---
 
-<div class="absolute right-10 w-90 color-white">
-  <h3 class="mb-5">Learnings</h3>
-  <ul>    
-    <li v-click="1">renderToPipeableStream needs an additional parameter to resolve client components path</li>
-    <li v-click="2">on the client side, we need the same in createFromFetch</li>
-    <li v-click="3">a custom loader, or a bundler,  is needed on the backend to handle client components</li>
-  </ul>
-</div>
+# Additional notes
 
-<div class="w-120">
-```js {*|15-16}
-import Fastify from "fastify";
-import { renderToPipeableStream } 
-  from "react-server-dom-esm/server";
-import { MyClientComponent } 
-  from "./client/my-client-component.js"
+<span class="color-white">A custom loader (or a bundler),  is needed on the backend to handle client components</span>
 
-function App() => (<div>
-  <h1>Hello world!</h1>
-  <MyClientComponent content="Click me!"/>
-</div>);
+<div class>
+```sh
+node --import ./register-rsc-loader.js server.js
+```
+```js
+import { load as reactLoad } from "react-server-dom-esm/node-loader";
 
-export async function main() {
-  ...
-  server.get("/rsc", (_, reply) => {
-    const basePath = new URL("./client", import.meta.url).href;
-    const { pipe } = renderToPipeableStream(<App/>, basePath);
-    pipe(reply.raw);
-  });
-  return server;
+async function textLoad(url, context, defaultLoad) {
+  const result = await defaultLoad(url, context, defaultLoad);
+  if (result.format === "module") {
+    return {
+      source: Buffer.from(result.source).toString("utf8"),
+      format: "module",
+    };
+  }
+  return result;
 }
-```
 
-```js {*|3}
-const initialContent = createFromFetch(
-  fetch("/rsc", {
-    moduleBaseURL: window.location.origin
-  })
-)
-```
-</div>
+export async function load(url, context, defaultLoad) {
+  const result = await reactLoad(url, context, (u, c) => {
+    return textLoad(u, c, defaultLoad);
+  });
+  return result;
+}
 
-<div class="absolute w-90 bottom-10 right-10">
-```sh {none|1}
-node --import ./register-rsc-loader.js ...
-```
-```js {none|*}
-import { load as reactLoad } 
-  from "react-server-dom-ems/node-loader";
-...
 ```
 </div>
 
@@ -628,14 +609,16 @@ class: text-center pt-40 color-white
   />
 </v-click>
 
-<div class="absolute right-10 w-90 color-white" v-after v-click.hide="5">
-  <h3 class="mb-5">Learnings</h3>
-  <span>We can create async (server) components by:</span>
-  <ul>    
-    <li v-click="2">using async / await as needed</li>
-    <li v-click="3">using Suspense to wrap an async component and define a fallback to show until the component is resolved</li>
-    <li v-click="4">We can even use the same component recursively to create a (potentially) infinite content stream</li>
-  </ul>
+<div  v-click.hide="5">
+  <div class="absolute right-10 w-90 color-white" v-after>
+    <h3 class="mb-5">Learnings</h3>
+    <span>We can create async (server) components by:</span>
+    <ul>    
+      <li v-click="2">using async / await as needed</li>
+      <li v-click="3">using Suspense to wrap an async component and define a fallback to show until the component is resolved</li>
+      <li v-click="4">We can even use the same component recursively to create a (potentially) infinite content stream</li>
+    </ul>
+  </div>
 </div>
 
 <div class="absolute right-10 w-90 color-white" v-click="5">
@@ -769,7 +752,7 @@ export async function main() {
 
   server.get("/rsc", (req, reply) => {
     const page = Number(req.query.page);
-    const { pipe } = renderToPipeableStream(h(Page, { page }));
+    const {pipe} = renderToPipeableStream(<Page page={page}/>);
     pipe(reply.raw);
   });
 
