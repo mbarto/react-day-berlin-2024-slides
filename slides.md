@@ -42,11 +42,11 @@ overviewSnapshots: true
     alt=""
   />
   <div class="mx-80 w-140 -my-50 color-white">
-    <v-click>Hi, my name is Mauro, and I work as a software developer for doubleloop<br/></v-click>
-    <v-click>In my company, fridays are dedicated to exploration<br/></v-click>
-    <v-click>One of those was dedicated to RSC<br/></v-click>
-    <v-click>The exploration went through a set of challenges, with the goal of learning as much as possible<br/></v-click>
-    <v-click>This talk is about this learning journey<br/></v-click>
+    <v-click>Hi! my name is <span font-bold text-green>Mauro</span>, and I work as a software developer for a small italian company, called <span font-bold text-green>doubleloop</span>.<br/></v-click>
+    <v-click>In my company, <span font-bold text-green>fridays</span> are dedicated to <span font-bold text-green>exploration</span>.<br/></v-click>
+    <v-click>One of those was dedicated to <span font-bold text-green>RSC</span>.<br/></v-click>
+    <v-click>The exploration went through a set of <span font-bold text-green>challenges</span>, with the goal of <span font-bold text-green>learning</span> as much as possible.<br/></v-click>
+    <v-click>This <span font-bold text-green>talk</span> is about this <span font-bold text-green>learning journey</span>.<br/></v-click>
   </div>
 </div>
 
@@ -96,11 +96,27 @@ class: pt-20
 
 <hr class="w-10 ml-100 mb-5"/>
 
-<span class="text-size-xl color-white">Repository used during the talk: https://github.com/mbarto/rsc-experiments</span>
+[Repository used during the talk: https://github.com/mbarto/rsc-experiments]{class="text-size-xl color-white"}
+
+[Slides: https://github.com/mbarto/react-day-berlin-2024-slides]{class="text-size-xl color-white"}
+
+[Where the learning journey started: https://github.com/epicweb-dev/react-server-components]{class="text-size-xl color-white"}
 
 <img
-    class="absolute bottom-20 left-100 w-40 opacity-100"
+    class="absolute bottom-20 left-20 w-40 opacity-100"
     src="./github_repo_qrcode.png"
+    alt=""
+  />
+
+<img
+    class="absolute bottom-20 left-95 w-40 opacity-100"
+    src="./slides_repo_qrcode.png"
+    alt=""
+  />
+
+<img
+    class="absolute bottom-20 left-170 w-40 opacity-100"
+    src="./epicwebdev_repo_qrcode.png"
     alt=""
   />
 
@@ -127,15 +143,15 @@ class: text-center pt-40 color-white
     alt=""
   />
 </v-click>
-<div class="absolute right-10 w-110 color-white" v-after>
+<div class="absolute right-10 top-30 w-110 color-white" v-after>
   <h3 class="mb-5">Learnings</h3>
-  <span>We can render "pre-cooked" content by:</span>
+  <span>We can render <span font-bold text-green>pre-cooked</span> content by:</span>
   <ul>    
-    <li v-click="2">fetching it from a file / string</li>
-    <li v-click="3">invoking createFromFetch to get a Promise of a React Tree to be rendered</li>
-    <li v-click="4">resolving the async Promise via the use hook, that hides the asynchronicity</li>
-    <li v-click="5">rendering the React Tree via createRoot(...).render</li>
-    <li v-click="6">Pre-cooked content is a serialized version of a React Tree, using a new protocol called React Flight.</li>
+    <li v-click="2"><span font-bold text-green>fetching</span> it</li>
+    <li v-click="3">invoking <span font-bold text-green>createFromFetch</span> to decode the <span font-bold text-green>Stream</span> of <span font-bold text-green>binary data</span></li>
+    <li v-click="4"><span font-bold text-green>resolving</span> the Stream Promise via the <span font-bold text-green>use</span> hook</li>
+    <li v-click="5">rendering the <span font-bold text-green>decoded</span> data as a <span font-bold text-green>React Tree</span></li>
+    <div v-click="6">Our content is a <span font-bold text-green>serialized</span> version of JSX, using a new protocol called <span font-bold text-green>React Flight</span></div>
   </ul>
 </div>
 
@@ -173,9 +189,16 @@ createRoot(document.getElementById("root"))
 class: text-center mt-10
 ---
 
-```mermaid {markdownAutoWrap: false}
+```mermaid
+%%{
+  init: {
+    'themeVariables': {
+      'lineColor': '#AAA'
+    }
+  }
+}%%
 flowchart TD
-  A@{shape: circle, label: "React Tree"}
+  A@{shape: circle, label: "JSX"}
   B@{img: "./rsc_payload_1.png", w: 350, constraint: "on"}
   A -- Serialize (???) --> B
   B -- Deserialize (createFromFetch) --> HTML[&lt;div&gt;Hello World!&lt;/div&gt;]
@@ -204,9 +227,9 @@ class: text-center
 ::right::
 
 <ul class="color-white text-left">    
-    <li>Why not using HTML?</li>
-    <li v-click>Flight is more expressive (data, promises, etc.)</li>
-    <li v-click>Use it if you need its richness</li>
+    <li>Why not using <span font-bold text-green>HTML?</span></li>
+    <li v-click>Flight is more expressive (<span font-bold text-green>data</span>, <span font-bold text-green>delayed content</span>, etc.)</li>
+    <li v-click>Use it if you need its <span font-bold text-green>richness</span></li>
 </ul>
 
 ---
@@ -254,18 +277,18 @@ class: text-center pt-40 color-white
 </v-click>
 <div class="absolute right-10 w-90 color-white" v-after>
   <h3 class="mb-5">Learnings</h3>
-  <span>We can replace content of the full page, or part of it by:</span>
+  <span>We can <span font-bold text-green>switch</span> content by:</span>
   <ul>    
-    <li v-click="2">storing content promise(s) into React state</li>
-    <li v-click="3">updating the state as we fetch new content</li>
-    <li v-click="4">passing content promise(s) as a  property of the component(s)</li>
+    <li v-click="2"><span font-bold text-green>storing</span> content promise(s) into React <span font-bold text-green>state</span></li>
+    <li v-click="3"><span font-bold text-green>updating</span> state as we fetch <span font-bold text-green>new content</span></li>
+    <li v-click="4"><span font-bold text-green>passing</span> content promises as properties to <span font-bold text-green>components</span></li>
   </ul>
   <span v-click="5">React Flight is a rich protocol, it supports:</span>
   <ul>    
-    <li v-click="6">React Trees ($)</li>
-    <li v-click="7">(Server) components</li>
-    <li v-click="8">Many chunks, identified by keys (1, 2, 3, 0)</li>
-    <li v-click="9">References to other chunks ($2, $3)</li>
+    <li v-click="6">React Trees (<span font-bold text-green>$</span>)</li>
+    <li v-click="7">(Server) <span font-bold text-green>components</span></li>
+    <li v-click="8">Many <span font-bold text-green>chunks</span>, identified by <span font-bold text-green>keys</span> (1, 2, 3, 0)</li>
+    <li v-click="9"><span font-bold text-green>References</span> to other chunks (<span font-bold text-green>$2</span>, <span font-bold text-green>$3</span>)</li>
   </ul>
   
 </div>
@@ -339,7 +362,7 @@ class: text-center
 ::right::
 
 <ul class="color-white text-left">    
-    <li>Why not using HTML?</li>
+    <li>What's wrong with the <span font-bold text-green>SPA</span> approach?</li>
     <li v-click>Not a strong reason to use RSC in this case</li>
 </ul>
 
@@ -381,18 +404,17 @@ class: text-center pt-40 color-white
 
 <div class="absolute right-10 w-90 color-white">
   <h3 class="mb-5">Learnings</h3>
-  <span>We need a condition on the starting script to enable react in server mode<br/></span>
-  <span v-click="1">We can "pre-cook" content on a server by:</span>
+  <span>We need a <span font-bold text-green>condition</span> on the starting script to enable react in <span font-bold text-green>server mode</span><br/></span>
+  <span v-click="1">We can <span font-bold text-green>pre-cook</span> content on the <span font-bold text-green>backend</span> by:</span>
   <ul>    
-    <li v-click="2">creating a /rsc endpoint</li>
-    <li v-click="3">invoking renderToPipeableStream on a (server) component</li>
-    <li v-click="4">"pipeing" the result on the backend response object</li>
+    <li v-click="2">creating a dedicated <span font-bold text-green>endpoint</span>.</li>
+    <li v-click="3">invoking <span font-bold text-green>renderToPipeableStream</span> to <span font-bold text-green>serialize</span> a (server) component.</li>
+    <li v-click="4"><span font-bold text-green>streaming</span> the result on the <span font-bold text-green>response</span>.</li>
   </ul>
-  <span v-click="5">The server components have some limitations:</span>
+  <span v-click="5">Server components are, by design, <span font-bold text-green>stateless</span>:</span>
   <ul>    
-    <li v-click="6">can't use any of the usual hooks, to manage state</li>
-    <li v-click="7">can't use context either</li>
-    <li v-click="8">this is because they are, by design, stateless</li>
+    <li v-click="6">can't use hooks to manage <span font-bold text-green>state</span></li>
+    <li v-click="7">can't use <span font-bold text-green>context</span> either</li>
   </ul>
   
 </div>
@@ -435,7 +457,7 @@ class: text-center mt-10
 
 ```mermaid {markdownAutoWrap: false}
 flowchart TD
-  A@{shape: circle, label: "React Tree"}
+  A@{shape: circle, label: "JSX"}
   B@{img: "./rsc_payload_1.png", w: 350, constraint: "on"}
   A -- Serialize (renderToPipeableStream) --> B
   B -- Deserialize (createFromFetch) --> HTML[&lt;div&gt;Hello World!&lt;/div&gt;]
@@ -453,10 +475,13 @@ flowchart TD
 <div class="absolute right-10 w-90 color-white" v-after>
   <h3 class="mb-5">Learnings</h3>
   <ul>    
-    <li v-click="2">Client (only) components can be created using the directive use client.</li>
-    <li v-click="3">We can use client components in server components, not the other way around</li>
-    <li v-click="4">Client components are translated into an import chunk (I)...</li>
-    <li v-click="5">...and one ore more lazy references ($L) by React Flight</li>
+    <li v-click="2">Client (only) components can be created using the directive <span font-bold text-green>use client</span>.</li>
+    <li v-click="3">We can use <span font-bold text-green>client components in server components</span>, not the other way around</li>
+  </ul>
+  <span v-click="4">Client components are <span font-bold text-green>serialized</span> into:</span>
+  <ul>
+    <li v-click="5">an <span font-bold text-green>import</span> chunk (<span font-bold text-green>I</span>).</li>
+    <li v-click="6">one ore more <span font-bold text-green>lazy references</span> (<span font-bold text-green>$La</span>).</li>
   </ul>
 </div>
 
@@ -470,7 +495,7 @@ export const MyClientComponent = ({ content }) =>
 </div>
 
 <div class="w-120">
-```js {*|9}
+```js {*|4-5,9}
 import Fastify from "fastify";
 import { renderToPipeableStream } 
   from "react-server-dom-esm/server";
@@ -494,8 +519,8 @@ export async function main() {
 ```
 </div>
 
-<div class="absolute w-100 bottom-10 right-10">
-```json {*|1|4}
+<div class="absolute w-100 bottom-10 right-5" v-click="4">
+```json {*|*|1|4}
 a:I["/my-client-component.js","MyClientComponent"]
 0:["$","div",null,{"children":[
   ["$", "div", null, {"children": "Hello World!"}], 
@@ -561,9 +586,9 @@ class: text-center
 ::right::
 
 <ul class="color-white text-left">    
-    <li>renderToString --> HTML</li>
-    <li v-click>renderToPipeableStream --> RSC</li>
-    <li v-click>Still nothing really impressive...</li>
+    <li><span font-bold text-green>renderToString</span> --> HTML</li>
+    <li v-click><span font-bold text-green>renderToPipeableStream</span> --> RSC</li>
+    <li v-click>I still miss the <span font-bold text-green>killer feature</span>.</li>
 </ul>
 
 ---
@@ -612,22 +637,22 @@ class: text-center pt-40 color-white
 <div  v-click.hide="5">
   <div class="absolute right-10 w-90 color-white" v-after>
     <h3 class="mb-5">Learnings</h3>
-    <span>We can create async (server) components by:</span>
+    <span>We can <span font-bold text-green>stream content</span> indefinitely by:</span>
     <ul>    
-      <li v-click="2">using async / await as needed</li>
-      <li v-click="3">using Suspense to wrap an async component and define a fallback to show until the component is resolved</li>
-      <li v-click="4">We can even use the same component recursively to create a (potentially) infinite content stream</li>
+      <li v-click="2">Using <span font-bold text-green>async / await</span> to get content in the <span font-bold text-green>background</span></li>
+      <li v-click="3">Using <span font-bold text-green>Suspense</span> to wait for <span font-bold text-green>async content</span> with a <span font-bold text-green>fallback</span>.</li>
+      <li v-click="4">Using <span font-bold text-green>recursion</span> to create a (potentially) <span font-bold text-green>infinite</span> content stream</li>
     </ul>
   </div>
 </div>
 
 <div class="absolute right-10 w-90 color-white" v-click="5">
   <h3 class="mb-5">Learnings</h3>
-  <span>React Flight supports streaming content by:</span>
+  <span>React Flight is able to serialize this by:</span>
   <ul>    
-    <li v-click="6">allowing serialization of React internal components (e.g. Suspense) through symbols ($S)</li>
-    <li v-click="7">referencing future content as lazy content ($L)</li>
-    <li v-click="8">renderToPipeableStream streams new content (in chunks), when it is available</li>
+    <li v-click="6">Allowing serialization of React <span font-bold text-green>internal components</span> (e.g. Suspense) through <span font-bold text-green>symbols</span> (<span font-bold text-green>$S</span>react.suspense)</li>
+    <li v-click="7">referencing future content as <span font-bold text-green>lazy content</span> (<span font-bold text-green>$L3</span>)</li>
+    <li v-click="8"><span font-bold text-green>renderToPipeableStream</span> streams content in <span font-bold text-green>chunks</span>, as it is available</li>
   </ul>
 </div>
 
@@ -687,8 +712,8 @@ class: text-center
 ::right::
 
 <ul class="color-white text-left">    
-    <li>HTML does not (easily) support streaming content</li>
-    <li v-click>This is a real game changer!</li>
+    <li><span font-bold text-green>HTML</span> does not (easily) support streaming content</li>
+    <li v-click>This is a real <span font-bold text-green>game changer!</span></li>
 </ul>
 
 ---
@@ -728,13 +753,13 @@ class: text-center pt-40 color-white
 
 <div class="absolute right-10 w-90 color-white">
   <h3 class="mb-5">Learnings</h3>
-  <span>We can have a dedicated backend for rsc generation:</span>
+  <span>We can have a <span font-bold text-green>dedicated</span> backend for <span font-bold text-green>rsc</span> generation:</span>
   <ul>    
-    <li v-click="1">started with the react-server conditions flag</li>
-    <li v-click="2">with the usual rsc endpoint using renderToPipeableStream</li>
-    <li v-click="3">on a different port / server than the main backend</li>
-    <li v-click="4">The RSC endpoint can be also hosted on the main backend, using workers (an example is in the talk repository)</li>
+    <li v-click="1">started with the react-server <span font-bold text-green>conditions</span> flag</li>
+    <li v-click="2">with an rsc endpoint using <span font-bold text-green>renderToPipeableStream</span></li>
+    <li v-click="3">on a <span font-bold text-green>different port or server</span> than the main backend</li>
   </ul>
+  <span v-click="4">The RSC endpoint can be also hosted on the main backend, using <span font-bold text-green>workers</span> (an example is in the talk repository)</span>
 </div>
 
 
@@ -769,11 +794,11 @@ await server.listen({ port: 4000 });
 
 <div class="absolute right-10 w-90 color-white">
   <h3 class="mb-5">Learnings</h3>
-  <span>The main backend will:</span>
+  <span>The <span font-bold text-green>main</span> backend will:</span>
   <ul>    
-    <li v-click="1">offer a pass-through /rsc endpoint to delegate to the rsc backend</li>
-    <li v-click="2">pregenerate static HTML using renderToString</li>
-    <li v-click="3">include also the initial RSC payload for hydration</li>
+    <li v-click="1">offer a <span font-bold text-green>pass-through</span> /rsc endpoint to <span font-bold text-green>delegate</span> to the rsc backend</li>
+    <li v-click="2">pregenerate static HTML using <span font-bold text-green>renderToString</span></li>
+    <li v-click="3">include also the initial <span font-bold text-green>RSC payload</span> for <span font-bold text-green>hydration</span></li>
   </ul>
 </div>
 
@@ -813,11 +838,11 @@ await server.listen({ port: 3000 });
 
 <div class="absolute right-10 w-90 color-white">
   <h3 class="mb-5">Learnings</h3>
-  <span>On the client we can hydrate content by:</span>
+  <span>On the client we can <span font-bold text-green>hydrate</span> content by:</span>
   <ul>    
-    <li v-click="1">getting the RSC payload already included in the page</li>
-    <li v-click="2">transforming the payload into a stream through a ReadableStream and a TextEncoder</li>
-    <li v-click="3">using createFromReadableStream to transform it into the usual React Tree Promise</li>
+    <li v-click="1">getting the <span font-bold text-green>RSC payload</span> already included in the page</li>
+    <li v-click="2">transforming the payload into a stream through a <span font-bold text-green>ReadableStream</span> and a <span font-bold text-green>TextEncoder</span></li>
+    <li v-click="3">using <span font-bold text-green>createFromReadableStream</span> to <span font-bold text-green>deserialize</span> it.</li>
   </ul>
 </div>
 
@@ -875,8 +900,8 @@ class: text-center
 ::right::
 
 <ul class="color-white text-left">    
-    <li>This makes RSC able to work as the classic SSR was</li>
-    <li v-click>Why can't we use renderToPipableStream and renderToString in the same "thread"? This remains a mystery to me</li>
+    <li>This makes RSC able to work as the <span font-bold text-green>classic SSR</span> was</li>
+    <li v-click>Why can't we use <span font-bold text-green>renderToPipableStream</span> and <span font-bold text-green>renderToString</span> in the <span font-bold text-green>same thread</span>? This remains a <span font-bold text-green>mystery</span> to me</li>
 </ul>
 
 ---
@@ -924,12 +949,12 @@ class: text-center pt-40 color-white
 
 <div class="absolute right-10 w-90 color-white" v-after>
   <h3 class="mb-5">Learnings</h3>
-  <span>We can create server components in Rust by:</span>
+  <span>We can create server components in <span font-bold text-green>Rust</span> by:</span>
   <ul>    
-    <li v-click="2">using the rscx library</li>
-    <li v-click="3">tagging a function as a component using the #component attribute</li>
-    <li v-click="4">defining a component output in a jsx-like syntax, via the html! macro</li>
-    <li v-click="5">using the flight function (just a proof of concept) to serialize the output as a React Flight payload, instead of HTML</li>
+    <li v-click="2">using the <span font-bold text-green>rscx</span> library</li>
+    <li v-click="3">tagging a <span font-bold text-green>function</span> as a <span font-bold text-green>component</span> using the <span font-bold text-green>#component</span> attribute</li>
+    <li v-click="4">defining a component output in a <span font-bold text-green>jsx-like</span> syntax, via the <span font-bold text-green>html!</span> macro</li>
+    <li v-click="5">using the <span font-bold text-green>flight</span> function (just a proof of concept) to <span font-bold text-green>serialize</span> the output as a <span font-bold text-green>React Flight payload</span>, instead of HTML</li>
   </ul>
 </div>
 
@@ -951,8 +976,8 @@ mod app {
 
     #[component]
     fn Section(
-        #[builder(default = "Default title".into(), setter(into))] title: String,
-        #[builder(default)] children: String,
+        title: String,
+        children: String,
     ) -> String {
         html! {
             <div>
@@ -987,9 +1012,9 @@ class: text-center
 ::right::
 
 <ul class="color-white text-left">    
-    <li>Not an easy target</li>
-    <li v-click>We at least need a documented and stable specification for React Flight</li>
-    <li v-click>An option to consider!</li>
+    <li><span font-bold text-green>Not</span> an <span font-bold text-green>easy</span> target</li>
+    <li v-click>We at least need a <span font-bold text-green>documented</span> and <span font-bold text-green>stable</span> specification for React Flight</li>
+    <li v-click>An <span font-bold text-green>option</span> to consider!</li>
 </ul>
 
 ---
@@ -1041,6 +1066,7 @@ class: text-white
 # More links to useful material
 
  - Repository used during the talk: https://github.com/mbarto/rsc-experiments
+ - Slides: https://github.com/mbarto/react-day-berlin-2024-slides
  - Where the learning journey started: https://github.com/epicweb-dev/react-server-components
  - The Rust rscx library: https://github.com/Pitasi/rscx
  - The RSC parser project: https://rsc-parser.vercel.app/
