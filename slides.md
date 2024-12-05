@@ -151,7 +151,7 @@ class: text-center pt-40 color-white
     <li v-click="3">invoking <span font-bold text-green>createFromFetch</span> to decode the <span font-bold text-green>Stream</span> of <span font-bold text-green>binary data</span></li>
     <li v-click="4"><span font-bold text-green>resolving</span> the Stream Promise via the <span font-bold text-green>use</span> hook</li>
     <li v-click="5">rendering the <span font-bold text-green>decoded</span> data as a <span font-bold text-green>React Tree</span></li>
-    <div v-click="6">Our content is a <span font-bold text-green>serialized</span> version of JSX, using a new protocol called <span font-bold text-green>React Flight</span></div>
+    <div v-click="6">Our content is a <span font-bold text-green>serialized</span> version of JSX, using a new protocol called <span font-bold text-green>React Flight</span>.</div>
   </ul>
 </div>
 
@@ -287,8 +287,8 @@ class: text-center pt-40 color-white
   <ul>    
     <li v-click="6">React Trees (<span font-bold text-green>$</span>)</li>
     <li v-click="7">(Server) <span font-bold text-green>components</span></li>
-    <li v-click="8">Many <span font-bold text-green>chunks</span>, identified by <span font-bold text-green>keys</span> (1, 2, 3, 0)</li>
-    <li v-click="9"><span font-bold text-green>References</span> to other chunks (<span font-bold text-green>$2</span>, <span font-bold text-green>$3</span>)</li>
+    <li v-click="8">many <span font-bold text-green>chunks</span>, identified by <span font-bold text-green>keys</span> (1, 2, 3, 0)</li>
+    <li v-click="9"><span font-bold text-green>references</span> to other chunks (<span font-bold text-green>$2</span>, <span font-bold text-green>$3</span>)</li>
   </ul>
   
 </div>
@@ -407,9 +407,9 @@ class: text-center pt-40 color-white
   <span>We need a <span font-bold text-green>condition</span> on the starting script to enable react in <span font-bold text-green>server mode</span><br/></span>
   <span v-click="1">We can <span font-bold text-green>pre-cook</span> content on the <span font-bold text-green>backend</span> by:</span>
   <ul>    
-    <li v-click="2">creating a dedicated <span font-bold text-green>endpoint</span>.</li>
-    <li v-click="3">invoking <span font-bold text-green>renderToPipeableStream</span> to <span font-bold text-green>serialize</span> a (server) component.</li>
-    <li v-click="4"><span font-bold text-green>streaming</span> the result on the <span font-bold text-green>response</span>.</li>
+    <li v-click="2">creating a dedicated <span font-bold text-green>endpoint</span></li>
+    <li v-click="3">invoking <span font-bold text-green>renderToPipeableStream</span> to <span font-bold text-green>serialize</span> a (server) component</li>
+    <li v-click="4"><span font-bold text-green>streaming</span> the result on the <span font-bold text-green>response</span></li>
   </ul>
   <span v-click="5">Server components are, by design, <span font-bold text-green>stateless</span>:</span>
   <ul>    
@@ -474,14 +474,15 @@ flowchart TD
 
 <div class="absolute right-10 w-90 color-white" v-after>
   <h3 class="mb-5">Learnings</h3>
+  <span>RSC introduces <span font-bold text-green>client (only) components</span>:</span>
   <ul>    
-    <li v-click="2">Client (only) components can be created using the directive <span font-bold text-green>use client</span>.</li>
-    <li v-click="3">We can use <span font-bold text-green>client components in server components</span>, not the other way around</li>
+    <li v-click="2">you must prefix them with the directive <span font-bold text-green>use client</span></li>
+    <li v-click="3">we can nest them <span font-bold text-green>in server components</span>, not the other way around</li>
   </ul>
   <span v-click="4">Client components are <span font-bold text-green>serialized</span> into:</span>
   <ul>
     <li v-click="5">an <span font-bold text-green>import</span> chunk (<span font-bold text-green>I</span>).</li>
-    <li v-click="6">one ore more <span font-bold text-green>lazy references</span> (<span font-bold text-green>$La</span>).</li>
+    <li v-click="6">one ore more <span font-bold text-green>lazy references</span> (<span font-bold text-green>$La</span>)</li>
   </ul>
 </div>
 
@@ -534,7 +535,7 @@ class: color-white op-100
 
 # Additional notes
 
-<span class="color-white">A custom loader (or a bundler),  is needed on the backend to handle client components</span>
+<div class="color-white -mt-3">A custom loader (or a bundler),  is needed on the backend to handle client components</div>
 
 <div class>
 ```sh
@@ -587,7 +588,7 @@ class: text-center
 
 <ul class="color-white text-left">    
     <li><span font-bold text-green>renderToString</span> --> HTML</li>
-    <li v-click><span font-bold text-green>renderToPipeableStream</span> --> RSC</li>
+    <li v-click><span font-bold text-green>renderToPipeableStream</span> --> React Flight payload</li>
     <li v-click>I still miss the <span font-bold text-green>killer feature</span>.</li>
 </ul>
 
@@ -639,9 +640,9 @@ class: text-center pt-40 color-white
     <h3 class="mb-5">Learnings</h3>
     <span>We can <span font-bold text-green>stream content</span> indefinitely by:</span>
     <ul>    
-      <li v-click="2">Using <span font-bold text-green>async / await</span> to get content in the <span font-bold text-green>background</span></li>
-      <li v-click="3">Using <span font-bold text-green>Suspense</span> to wait for <span font-bold text-green>async content</span> with a <span font-bold text-green>fallback</span>.</li>
-      <li v-click="4">Using <span font-bold text-green>recursion</span> to create a (potentially) <span font-bold text-green>infinite</span> content stream</li>
+      <li v-click="2">using <span font-bold text-green>async / await</span> to get content in the <span font-bold text-green>background</span></li>
+      <li v-click="3">using <span font-bold text-green>Suspense</span> to wait for <span font-bold text-green>async content</span> with a <span font-bold text-green>fallback</span>.</li>
+      <li v-click="4">using <span font-bold text-green>recursion</span> to create a (potentially) <span font-bold text-green>infinite</span> content stream</li>
     </ul>
   </div>
 </div>
@@ -650,7 +651,7 @@ class: text-center pt-40 color-white
   <h3 class="mb-5">Learnings</h3>
   <span>React Flight is able to serialize this by:</span>
   <ul>    
-    <li v-click="6">Allowing serialization of React <span font-bold text-green>internal components</span> (e.g. Suspense) through <span font-bold text-green>symbols</span> (<span font-bold text-green>$S</span>react.suspense)</li>
+    <li v-click="6">allowing serialization of React <span font-bold text-green>internal components</span> (e.g. Suspense) through <span font-bold text-green>symbols</span> (<span font-bold text-green>$S</span>react.suspense)</li>
     <li v-click="7">referencing future content as <span font-bold text-green>lazy content</span> (<span font-bold text-green>$L3</span>)</li>
     <li v-click="8"><span font-bold text-green>renderToPipeableStream</span> streams content in <span font-bold text-green>chunks</span>, as it is available</li>
   </ul>
@@ -681,13 +682,21 @@ function App() {
 
 
 <div class="absolute w-220 bottom-10 left-10" v-click="5">
-```json {*|*|1|3|5}
+````md magic-move {lines: false}
+```json {*|*|1|3}
+2:"$Sreact.suspense"
+0:["$","div",null,{"children":["$","$2",null,{"fallback":"Loading...","children":
+  "$L3"
+},"$1"]},"$1"]
+```
+```json {3,5}
 2:"$Sreact.suspense"
 0:["$","div",null,{"children":["$","$2",null,{"fallback":"Loading...","children":
   "$L3"
 },"$1"]},"$1"]
 3:[["$","p",null,{"children":"Counter: 0"},null],["$","$2",null,{"fallback":"Loading...","children": "$L5"},null]]
 ```
+````
 </div>
 
 ---
@@ -842,7 +851,7 @@ await server.listen({ port: 3000 });
   <ul>    
     <li v-click="1">getting the <span font-bold text-green>RSC payload</span> already included in the page</li>
     <li v-click="2">transforming the payload into a stream through a <span font-bold text-green>ReadableStream</span> and a <span font-bold text-green>TextEncoder</span></li>
-    <li v-click="3">using <span font-bold text-green>createFromReadableStream</span> to <span font-bold text-green>deserialize</span> it.</li>
+    <li v-click="3">using <span font-bold text-green>createFromReadableStream</span> to <span font-bold text-green>deserialize</span> it</li>
   </ul>
 </div>
 
