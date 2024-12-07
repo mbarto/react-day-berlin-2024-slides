@@ -41,8 +41,7 @@ overviewSnapshots: true
     src="./doubleloop.png"
     alt=""
   />
-  <div class="mx-80 w-140 -my-50 color-white">
-    <v-click>Hi! my name is <span font-bold text-green>Mauro</span>, and I work as a software developer for a small italian company, called <span font-bold text-green>doubleloop</span>.<br/></v-click>
+  <div class="mx-80 w-140 -my-40 color-white">
     <v-click>In my company, <span font-bold text-green>fridays</span> are dedicated to <span font-bold text-green>exploration</span>.<br/></v-click>
     <v-click>One of those was dedicated to <span font-bold text-green>RSC</span>.<br/></v-click>
     <v-click>The exploration went through a set of <span font-bold text-green>challenges</span>, with the goal of <span font-bold text-green>learning</span> as much as possible.<br/></v-click>
@@ -82,43 +81,11 @@ hr {
 class: text-center pt-50
 ---
 
-# Discover RSC "real" meaning(s)
+# Discover RSC real meaning(s)
 
 <hr class="w-10 ml-100 mb-5"/>
 
 ## Enjoy your flight!
-
----
-class: pt-20
----
-
-# Some links to useful materials
-
-<hr class="w-10 ml-100 mb-5"/>
-
-[Repository used during the talk: https://github.com/mbarto/rsc-experiments]{class="text-size-xl color-white"}
-
-[Slides: https://github.com/mbarto/react-day-berlin-2024-slides]{class="text-size-xl color-white"}
-
-[Where the learning journey started: https://github.com/epicweb-dev/react-server-components]{class="text-size-xl color-white"}
-
-<img
-    class="absolute bottom-20 left-20 w-40 opacity-100"
-    src="./github_repo_qrcode.png"
-    alt=""
-  />
-
-<img
-    class="absolute bottom-20 left-95 w-40 opacity-100"
-    src="./slides_repo_qrcode.png"
-    alt=""
-  />
-
-<img
-    class="absolute bottom-20 left-170 w-40 opacity-100"
-    src="./epicwebdev_repo_qrcode.png"
-    alt=""
-  />
 
 ---
 class: text-center pt-40 color-white
@@ -128,34 +95,34 @@ class: text-center pt-40 color-white
 
 <hr class="w-10 ml-100 mb-5"/>
 
-## Can we use RSC without a server?
+# React Server(less) Components
 
 <hr class="w-10 ml-100 mt-5 mb-5"/>
 
-# React Server(less) Components
+## RSC Hello World, without a server!
 
 ---
 
 <v-click hide>
 <img 
-    class="absolute w-100 opacity-100 right-10 top-20"
+    class="absolute w-100 opacity-100 right-10 top-40"
     src="./first_example_ui.png"
     alt=""
   />
 </v-click>
 <div class="absolute right-10 top-30 w-110 color-white" v-after>
   <h3 class="mb-5">Learnings</h3>
-  <span>We can render <span font-bold text-green>pre-cooked</span> content by:</span>
+  <span>We can render <span font-bold text-green>pre-generated</span> content by:</span>
   <ul>    
     <li v-click="2"><span font-bold text-green>fetching</span> it</li>
-    <li v-click="3">invoking <span font-bold text-green>createFromFetch</span> to decode the <span font-bold text-green>Stream</span> of <span font-bold text-green>binary data</span></li>
+    <li v-click="3">invoking <span font-bold text-green>createFromFetch</span> to decode a <span font-bold text-green>Stream</span> of <span font-bold text-green>binary data</span></li>
     <li v-click="4"><span font-bold text-green>resolving</span> the Stream Promise via the <span font-bold text-green>use</span> hook</li>
     <li v-click="5">rendering the <span font-bold text-green>decoded</span> data as a <span font-bold text-green>React Tree</span></li>
     <div v-click="6">Our content is a <span font-bold text-green>serialized</span> version of JSX, using a new protocol called <span font-bold text-green>React Flight</span>.</div>
   </ul>
 </div>
 
-<div class="mt-4 w-100">
+<div class="mt-20 w-100">
 
 ```js {*|7|3-8|1,11|14-15,2|7}
 import { use } from "react";
@@ -182,7 +149,7 @@ createRoot(document.getElementById("root"))
 ```json
 0:["$","div",null,{"children":"Hello World!"}]
 ```
-<arrow x1="150" y1="190" x2="150" y2="430" color="#953" width="2" arrowSize="1" />
+<arrow x1="150" y1="255" x2="150" y2="480" color="#953" width="2" arrowSize="1" />
 </div>
 
 ---
@@ -203,6 +170,109 @@ flowchart TD
   A -- Serialize (???) --> B
   B -- Deserialize (createFromFetch) --> HTML[&lt;div&gt;Hello World!&lt;/div&gt;]
 ```
+
+---
+class: text-center pt-40 color-white
+---
+
+<img v-click
+    class="absolute w-100 opacity-100 left-70 top-40"
+    src="./completed.png"
+    alt=""
+  />
+
+# 1st Challenge
+
+<hr class="w-10 ml-100 mb-5"/>
+
+# React Server(less) Components
+
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+## RSC Hello World, without a server!
+
+---
+class: text-center pt-40 color-white
+---
+
+# 1st Challenge (and 1/2)
+
+<hr class="w-10 ml-100 mb-5"/>
+
+# Replaceable Static Content
+
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+## Multi page website
+
+---
+
+<v-click hide>
+<img 
+    class="absolute w-100 opacity-100 right-10 top-10"
+    src="./second_example_ui.gif"
+    alt=""
+  />
+</v-click>
+<div class="absolute right-10 w-90 color-white" v-after>
+  <h3 class="mb-5">Learnings</h3>
+  <span>We can <span font-bold text-green>switch</span> content by:</span>
+  <ul>    
+    <li v-click="2"><span font-bold text-green>storing</span> content into React <span font-bold text-green>state</span></li>
+    <li v-click="3"><span font-bold text-green>updating</span> state as we fetch <span font-bold text-green>new content</span></li>
+    <li v-click="4"><span font-bold text-green>passing</span> content as properties to a dynamic <span font-bold text-green>component</span></li>
+  </ul>
+  <span v-click="5">React Flight is a rich protocol, it supports:</span>
+  <ul>    
+    <li v-click="6">React Trees (<span font-bold text-green>$</span>)</li>
+    <li v-click="7">many <span font-bold text-green>chunks</span>, identified by <span font-bold text-green>keys</span> (1, 2, 3, 0)</li>
+    <li v-click="8"><span font-bold text-green>composition</span> via <span font-bold text-green>references</span> to other chunks (<span font-bold text-green>$2</span>, <span font-bold text-green>$3</span>)</li>
+  </ul>
+  
+</div>
+
+<div class="w-120">
+````md magic-move {lines: false}
+```js {*|4|6-10|1}
+function Root({ content }) => use(content);
+
+function Layout() {
+  const [page, setPage] = useState(null);
+
+  function loadPage(page) {
+    setPage(
+      createFromFetch(fetch(`rsc/page${page}.rsc`))
+    );
+  }
+
+  return (
+    <>
+      <menu>
+        <li>
+          <a href="#" onClick={() => loadPage(1)}>Page 1</a>
+        </li>
+      </menu>
+      <Root content={page} />
+    </>
+  );
+}
+createRoot(document.getElementById("root")).render(<Layout />);
+
+```
+```json {*|3|*}
+2:["$","h1",null,{"children":"Title"},"$1"]
+3:["$","p",null,{"children":"Page1"},"$1"]
+0:["$","div",null,{"children":["$2","$3"]},"$1"]
+```
+```json {1,2,4}
+2:["$","h1",null,{"children":"Title"},"$1"]
+3:["$","p",null,{"children":"Page1"},"$1"]
+0:["$","div",null,{"children":[
+  "$2","$3"
+]},"$1"]
+```
+````
+</div>
 
 ---
 layout: two-cols-header
@@ -235,22 +305,21 @@ class: text-center
 ---
 class: text-center pt-40 color-white
 ---
-
 <img v-click
     class="absolute w-100 opacity-100 left-70 top-40"
     src="./completed.png"
     alt=""
   />
 
-# 1st Challenge
+# 1st Challenge (and 1/2)
 
 <hr class="w-10 ml-100 mb-5"/>
 
-## Can we use RSC without a server?
+# Replaceable Static Content
 
 <hr class="w-10 ml-100 mt-5 mb-5"/>
 
-# React Server(less) Components
+## Multi page website
 
 ---
 class: text-center pt-40 color-white
@@ -259,162 +328,28 @@ class: text-center pt-40 color-white
 # 2nd Challenge
 
 <hr class="w-10 ml-100 mb-5"/>
-
-## Can we navigate different pages with RSC?
-
-<hr class="w-10 ml-100 mt-5 mb-5"/>
-
-# Replaceable Static Content
-
----
-
-<v-click hide>
-<img 
-    class="absolute w-100 opacity-100 right-10 top-10"
-    src="./second_example_ui.gif"
-    alt=""
-  />
-</v-click>
-<div class="absolute right-10 w-90 color-white" v-after>
-  <h3 class="mb-5">Learnings</h3>
-  <span>We can <span font-bold text-green>switch</span> content by:</span>
-  <ul>    
-    <li v-click="2"><span font-bold text-green>storing</span> content promise(s) into React <span font-bold text-green>state</span></li>
-    <li v-click="3"><span font-bold text-green>updating</span> state as we fetch <span font-bold text-green>new content</span></li>
-    <li v-click="4"><span font-bold text-green>passing</span> content promises as properties to <span font-bold text-green>components</span></li>
-  </ul>
-  <span v-click="5">React Flight is a rich protocol, it supports:</span>
-  <ul>    
-    <li v-click="6">React Trees (<span font-bold text-green>$</span>)</li>
-    <li v-click="7">(Server) <span font-bold text-green>components</span></li>
-    <li v-click="8">many <span font-bold text-green>chunks</span>, identified by <span font-bold text-green>keys</span> (1, 2, 3, 0)</li>
-    <li v-click="9"><span font-bold text-green>references</span> to other chunks (<span font-bold text-green>$2</span>, <span font-bold text-green>$3</span>)</li>
-  </ul>
-  
-</div>
-
-<div class="w-120">
-````md magic-move {lines: false}
-```js {*|4|6-10|1}
-function Root({ content }) => use(content);
-
-function Layout() {
-  const [pagePromise, setPagePromise] = useState(null);
-
-  function setPage(page) {
-    setPagePromise(
-      createFromFetch(fetch(`rsc/page${page}.rsc`))
-    );
-  }
-
-  return (
-    <>
-      <menu>
-        <li>
-          <a href="#" onClick={() => setPage(1)}>Page 1</a>
-        </li>
-      </menu>
-      <Suspense fallback={<p>Loading...</p>}>
-        <Root content={pagePromise} />
-      </Suspense>
-    </>
-  );
-}
-createRoot(document.getElementById("root")).render(<Layout />);
-
-```
-```json {*|4|1|*}
-1:{"name":"App","env":"Server","owner":null}
-2:["$","h1",null,{"children":"Title"},"$1"]
-3:["$","p",null,{"children":"Page1"},"$1"]
-0:["$","div",null,{"children":["$2","$3"]},"$1"]
-```
-```json {2,3,5}
-1:{"name":"App","env":"Server","owner":null}
-2:["$","h1",null,{"children":"Title"},"$1"]
-3:["$","p",null,{"children":"Page1"},"$1"]
-0:["$","div",null,{"children":[
-  "$2","$3"
-]},"$1"]
-```
-````
-</div>
-
----
-layout: two-cols-header
-class: text-center
----
-<style>
-  .col-header {
-    font-size: 32px;
-    color: white;
-  }
-</style>
-
-<div class="text-center">What can we do with our learnings?</div>
-
-::left::
-
-# Page Navigation
-
-## Replace Updated Content
-
-::right::
-
-<ul class="color-white text-left">    
-    <li>What's wrong with the <span font-bold text-green>SPA</span> approach?</li>
-    <li v-click>Not a strong reason to use RSC in this case</li>
-</ul>
-
----
-class: text-center pt-40 color-white
----
-<img v-click
-    class="absolute w-100 opacity-100 left-70 top-40"
-    src="./completed.png"
-    alt=""
-  />
-
-# 2nd Challenge
-
-<hr class="w-10 ml-100 mb-5"/>
-
-## Can we navigate different pages with RSC?
-
-<hr class="w-10 ml-100 mt-5 mb-5"/>
-
-# Replaceable Static Content
-
----
-class: text-center pt-40 color-white
----
-
-# 3rd Challenge
-
-<hr class="w-10 ml-100 mb-5"/>
-
-## Can we split rendering between a server and a client with RSC?
-
-<hr class="w-10 ml-100 mt-5 mb-5"/>
 
 # React Server<small>(and)</small>Client
 
+<hr class="w-10 ml-100 mt-5 mb-5"/>
+
+## Split rendering between a server and a client
+
 ---
 
 
-<div class="absolute right-10 w-90 color-white">
+<div class="absolute right-10 w-90 color-white -mt-5">
   <h3 class="mb-5">Learnings</h3>
   <span>We need a <span font-bold text-green>condition</span> on the starting script to enable react in <span font-bold text-green>server mode</span><br/></span>
-  <span v-click="1">We can <span font-bold text-green>pre-cook</span> content on the <span font-bold text-green>backend</span> by:</span>
+  <span v-click="1">We can <span font-bold text-green>pre-generate</span> content on the <span font-bold text-green>backend</span> by:</span>
   <ul>    
-    <li v-click="2">creating a dedicated <span font-bold text-green>endpoint</span></li>
-    <li v-click="3">invoking <span font-bold text-green>renderToPipeableStream</span> to <span font-bold text-green>serialize</span> a (server) component</li>
-    <li v-click="4"><span font-bold text-green>streaming</span> the result on the <span font-bold text-green>response</span></li>
+    <li v-click="2">invoking <span font-bold text-green>renderToPipeableStream</span> to <span font-bold text-green>serialize</span> a (server) component (on a dedicated endpoint)</li>
+    <li v-click="3"><span font-bold text-green>streaming</span> the result on the <span font-bold text-green>response</span></li>
   </ul>
-  <span v-click="5">Server components are, by design, <span font-bold text-green>stateless</span>:</span>
+  <span v-click="4">React Flight includes:</span>
   <ul>    
-    <li v-click="6">can't use hooks to manage <span font-bold text-green>state</span></li>
-    <li v-click="7">can't use <span font-bold text-green>context</span> either</li>
+    <li v-click="5">Server components description</li>
+    <li v-click="6">The generated DOM with references to the hosting component</li>
   </ul>
   
 </div>
@@ -426,7 +361,7 @@ node --conditions=react-server server.js
 </div>
 
 <div class="w-120" v-click="1">
-```js {*|*|12-15|13|14|*}
+```js {*|*|12-15|13-14|*}
 import Fastify from "fastify";
 import { renderToPipeableStream } 
   from "react-server-dom-esm/server";
@@ -451,6 +386,15 @@ await server.listen({ port: 3000 });
 ```
 </div>
 
+<div class="w-100 absolute bottom-5 right-5" v-click="4">
+```json {*|1|2-4}
+1:{"name":"App","env":"Server","owner":null}
+0:["$","div",null,{"children":"Hello World!"},
+  "$1"
+]
+```
+</div>
+
 ---
 class: text-center mt-10
 ---
@@ -462,6 +406,20 @@ flowchart TD
   A -- Serialize (renderToPipeableStream) --> B
   B -- Deserialize (createFromFetch) --> HTML[&lt;div&gt;Hello World!&lt;/div&gt;]
 ```
+---
+class: color-white op-100
+---
+
+### So we moved all rendering to the backend, but...
+
+<div class="mt-40">
+  <span v-click="1">Server components are, by design, <span font-bold text-green>stateless</span>:</span>
+  <ul>    
+    <li v-click="2">can't use hooks to manage <span font-bold text-green>state</span></li>
+    <li v-click="3">can't use <span font-bold text-green>context</span> either</li>
+  </ul>
+  <span v-click="4">Moreover, we miss <span font-bold text-green>interactive components</span></span>
+</div>
 ---
 
 <v-click hide>
@@ -601,29 +559,29 @@ class: text-center pt-40 color-white
     alt=""
   />
 
-# 3rd Challenge
+# 2nd Challenge
 
 <hr class="w-10 ml-100 mb-5"/>
 
-## Can we split rendering between a server and a client with RSC?
+# React Server<small>(and)</small>Client
 
 <hr class="w-10 ml-100 mt-5 mb-5"/>
 
-# React Server<small>(and)</small>Client
+## Split rendering between a server and a client
 
 ---
 class: text-center pt-40 color-white
 ---
 
-# 4th Challenge
+# 3rd Challenge
 
 <hr class="w-10 ml-100 mb-5"/>
 
-## Can we stream (infinite) content with RSC?
+# React Streaming Components
 
 <hr class="w-10 ml-100 mt-5 mb-5"/>
 
-# React Streaming Components
+## Streaming (infinite) content with RSC!
 
 ---
 
@@ -653,12 +611,12 @@ class: text-center pt-40 color-white
   <ul>    
     <li v-click="6">allowing serialization of React <span font-bold text-green>internal components</span> (e.g. Suspense) through <span font-bold text-green>symbols</span> (<span font-bold text-green>$S</span>react.suspense)</li>
     <li v-click="7">referencing future content as <span font-bold text-green>lazy content</span> (<span font-bold text-green>$L3</span>)</li>
-    <li v-click="8"><span font-bold text-green>renderToPipeableStream</span> streams content in <span font-bold text-green>chunks</span>, as it is available</li>
+    <li v-click="8">streaming content in <span font-bold text-green>chunks</span>, as it is available</li>
   </ul>
 </div>
 
 <div class="w-120">
-```js {*|1-2|5|6,14}
+```js {*|1-2|4-5|6,14}
 async function Async({ counter }) {
   await new Promise((r) => setTimeout(r, 1000));
   return (<>
@@ -716,7 +674,7 @@ class: text-center
 
 # Streaming Content
 
-## Slow and Fast Content
+## Fast and Slow Content
 
 ::right::
 
@@ -734,33 +692,33 @@ class: text-center pt-40 color-white
     alt=""
   />
 
-# 4th Challenge
+# 3rd Challenge
 
 <hr class="w-10 ml-100 mb-5"/>
 
-## Can we stream (infinite) content with RSC?
+# React Streaming Components
 
 <hr class="w-10 ml-100 mt-5 mb-5"/>
 
-# React Streaming Components
+## Streaming (infinite) content with RSC!
 
 ---
 class: text-center pt-40 color-white
 ---
 
-# 5th Challenge
+# 4th Challenge
 
 <hr class="w-10 ml-100 mb-5"/>
 
-## Can we generate both HTML and Flight with RSC?
+# React Strange Constraints
 
 <hr class="w-10 ml-100 mt-5 mb-5"/>
 
-# React Strange Constraints
+## Generating both HTML and Flight with RSC!
 
 ---
 
-<div class="absolute right-10 w-90 color-white">
+<div class="absolute right-10 w-90 top-15 color-white">
   <h3 class="mb-5">Learnings</h3>
   <span>We can have a <span font-bold text-green>dedicated</span> backend for <span font-bold text-green>rsc</span> generation:</span>
   <ul>    
@@ -772,14 +730,14 @@ class: text-center pt-40 color-white
 </div>
 
 
-<div class="w-120">
+<div class="w-120 absolute top-30">
 ```sh
 node --conditions=react-server rsc.js
 
 ```
 </div>
 
-<div class="w-120">
+<div class="w-120 absolute top-40">
 ```js {none|none|4-8|14}
 export async function main() {
   const server = Fastify();
@@ -801,7 +759,7 @@ await server.listen({ port: 4000 });
 
 ---
 
-<div class="absolute right-10 w-90 color-white">
+<div class="absolute right-10 w-90 top-35 color-white">
   <h3 class="mb-5">Learnings</h3>
   <span>The <span font-bold text-green>main</span> backend will:</span>
   <ul>    
@@ -845,19 +803,19 @@ await server.listen({ port: 3000 });
 </div>
 ---
 
-<div class="absolute right-10 w-90 color-white">
+<div class="absolute right-10 w-90 top-35 color-white">
   <h3 class="mb-5">Learnings</h3>
   <span>On the client we can <span font-bold text-green>hydrate</span> content by:</span>
   <ul>    
     <li v-click="1">getting the <span font-bold text-green>RSC payload</span> already included in the page</li>
-    <li v-click="2">transforming the payload into a stream through a <span font-bold text-green>ReadableStream</span> and a <span font-bold text-green>TextEncoder</span></li>
+    <li v-click="2">transforming the payload into a stream through a <span font-bold text-green>ReadableStream</span></li>
     <li v-click="3">using <span font-bold text-green>createFromReadableStream</span> to <span font-bold text-green>deserialize</span> it</li>
   </ul>
 </div>
 
 
-<div class="w-120 -mt-5">
-```js {*|4-5|8-16|18}
+<div class="w-120 mt-15">
+```js {*|4-5|8-10|12}
 function Layout() {
   const [pagePromise, setPagePromise] = useState(null);
 
@@ -865,14 +823,8 @@ function Layout() {
     .innerText;
 
   useEffect(() => {
-    const encoder = new TextEncoder();
-
     const stream = new ReadableStream({
-      start(controller) {
-        const encoded = encoder.encode(initialRsc);
-        controller.enqueue(encoded);
-        controller.close();
-      },
+      ...
     });
 
     const initialContent = createFromReadableStream(stream);
@@ -922,41 +874,41 @@ class: text-center pt-40 color-white
     alt=""
   />
 
-# 5th Challenge
+# 4th Challenge
 
 <hr class="w-10 ml-100 mb-5"/>
 
-## Can we generate both HTML and Flight with RSC?
+# React Strange Constraints
 
 <hr class="w-10 ml-100 mt-5 mb-5"/>
 
-# React Strange Constraints
+## Generating both HTML and Flight
 
 ---
 class: text-center pt-40 color-white
 ---
 
-# 6th Challenge
+# 5th Challenge
 
 <hr class="w-10 ml-100 mb-5"/>
 
-## Can we use a language that is not JS in the backend?
+# Rust Server Components
 
 <hr class="w-10 ml-100 mt-5 mb-5"/>
 
-# Rust Server Components
+## Using a language, other than JS, in the backend
 
 ---
 
 <v-click hide>
 <img 
-    class="absolute w-100 opacity-100 right-10 top-20"
+    class="absolute w-100 opacity-100 right-10 top-40"
     src="./sixth_example_ui.png"
     alt=""
   />
 </v-click>
 
-<div class="absolute right-10 w-90 color-white" v-after>
+<div class="absolute right-10 w-90 top-25 color-white" v-after>
   <h3 class="mb-5">Learnings</h3>
   <span>We can create server components in <span font-bold text-green>Rust</span> by:</span>
   <ul>    
@@ -969,7 +921,7 @@ class: text-center pt-40 color-white
 
 
 <div class="w-120 -mt-5">
-```rust {*|3|14-25|19-24|6-12}
+```rust {*|3|14-25|19-24|7-11}
 mod app {
     use flight::flight;
     use rscx::{component, html, props, CollectFragment};
@@ -1035,15 +987,15 @@ class: text-center pt-40 color-white
     alt=""
   />
 
-# 6th Challenge
+# 5th Challenge
 
 <hr class="w-10 ml-100 mb-5"/>
 
-## Can we use a language that is not JS in the backend?
+# Rust Server Components
 
 <hr class="w-10 ml-100 mt-5 mb-5"/>
 
-# Rust Server Components
+## Using a language, other than JS, in the backend
 
 ---
 layout: intro
@@ -1065,6 +1017,12 @@ class: text-white
 
 <v-clicks>
  <li>Needs documentation and stability of the protocol</li>
+</v-clicks>
+
+## Questions
+
+<v-clicks>
+ <li>Is it really better than other approaches? Too early to tell. Will see...</li>
 </v-clicks>
 
 ---
