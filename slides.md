@@ -449,15 +449,14 @@ class: color-white op-100
 "use client";
 
 export const MyClientComponent = ({ content }) =>
-  <button onClick={() => alert("Clicked!")}>{content}</button>;
+  <button onClick={() => alert("Clicked!")}>
+     {content}
+  </button>;
 ```
 </div>
 
 <div class="w-120">
-```js {*|4-5,9}
-import Fastify from "fastify";
-import { renderToPipeableStream } 
-  from "react-server-dom-esm/server";
+```js {*|1-3,6}
 import { MyClientComponent } 
   from "./client/my-client-component.js"
 
@@ -469,7 +468,7 @@ function App() => (<div>
 export async function main() {
   ...
   server.get("/rsc", (_, reply) => {
-    const basePath = new URL("./client", import.meta.url).href;
+    const basePath = new URL("./client",import.meta.url).href;
     const { pipe } = renderToPipeableStream(<App/>, basePath);
     pipe(reply.raw);
   });
@@ -478,7 +477,7 @@ export async function main() {
 ```
 </div>
 
-<div class="absolute w-100 bottom-10 right-5" v-click="4">
+<div class="absolute w-100 bottom-15 right-5" v-click="4">
 ```json {*|*|1|4}
 a:I["/my-client-component.js","MyClientComponent"]
 0:["$","div",null,{"children":[
@@ -743,9 +742,9 @@ export async function main() {
   const server = Fastify();
 
   server.get("/rsc", (req, reply) => {
-    const page = Number(req.query.page);
-    const {pipe} = renderToPipeableStream(<Page page={page}/>);
-    pipe(reply.raw);
+   const page = Number(req.query.page);
+   const {pipe} = renderToPipeableStream(<Page page={page}/>);
+   pipe(reply.raw);
   });
 
   return server;
@@ -834,7 +833,7 @@ function Layout() {
   ...
 }
 
-createRoot(document.getElementById("root")).render(<Layout />);
+createRoot(document.getElementById("root")).render(<Layout/>);
 ```
 </div>
 
@@ -1010,7 +1009,7 @@ class: text-white
  <li>Streaming</li>
  <li>Balance server and client work</li>
  <li>Extend the meaning of client and server</li>
- <li>Basic primitives → many different implementations (NextJS, Waku, Remix, TanStack, …)</li>
+ <li>Basic primitives → many different implementations (NextJS, Waku, Remix/React Router, TanStack Start)</li>
 </v-clicks>
 
 ## Cons
@@ -1065,6 +1064,7 @@ class: text-white
 <div class="ml-35 mt-15 bg-black bg-op-70 p-20 w-150">
   <h1>Thank you!</h1>
   <span>https://github.com/mbarto/rsc-experiments</span><br/>
+  <span>https://github.com/mbarto/react-day-berlin-2024-slides</span><br/>
   <span>maurobartolomeoli@gmail.com</span><br/>
   <span>@mauro_bart</span><br/>
   <span>mbarto.bsky.social</span><br/>
